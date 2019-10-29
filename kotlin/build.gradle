@@ -36,7 +36,7 @@ buildscript {
   }
 
   ext.deps = [
-      'android_gradle_plugin': "com.android.tools.build:gradle:3.5.3",
+      'android_gradle_plugin': "com.android.tools.build:gradle:4.0.0-alpha04",
 
       'androidx': [
           'activity': "androidx.activity:activity-ktx:1.0.0",
@@ -138,6 +138,7 @@ buildscript {
     mavenCentral()
     gradlePluginPortal()
     google()
+    maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
   }
 }
 
@@ -146,6 +147,7 @@ subprojects {
     google()
     mavenCentral()
     jcenter()
+    maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
   }
 
   apply plugin: "org.jlleitschuh.gradle.ktlint"
