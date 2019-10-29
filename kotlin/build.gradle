@@ -57,6 +57,13 @@ buildscript {
           'transition': "androidx.transition:transition:1.2.0",
       ],
 
+      'compose': [
+          'foundation': 'androidx.ui:ui-foundation:0.1.0-dev03',
+          'layout': 'androidx.ui:ui-layout:0.1.0-dev03',
+          'material': 'androidx.ui:ui-material:0.1.0-dev03',
+          'tooling': 'androidx.ui:ui-tooling:0.1.0-dev03',
+      ],
+
       'moshi': "com.squareup.moshi:moshi:1.9.2",
       'rxandroid2': "io.reactivex.rxjava2:rxandroid:2.1.1",
       'timber': "com.jakewharton.timber:timber:4.7.1",
