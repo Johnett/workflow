@@ -20,7 +20,7 @@ android rootProject.ext.defaultAndroidConfig
 
 android {
   defaultConfig {
-    applicationId "com.squareup.sample.hellocomposebinding"
+    applicationId "com.squareup.sample.composecontainer"
     minSdkVersion 25
     targetSdkVersion versions.targetSdk
     versionCode 1

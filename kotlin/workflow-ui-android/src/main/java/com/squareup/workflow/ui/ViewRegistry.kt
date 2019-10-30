@@ -100,8 +100,7 @@ class ViewRegistry private constructor(
     contextForNewView: Context,
     container: ViewGroup? = null
   ): View {
-    @Suppress("UNCHECKED_CAST")
-    return (allBindings[initialRendering::class] as? ViewBinding<RenderingT>)
+    return getBindingFor(initialRendering::class)
         ?.buildView(
             initialRendering,
             initialContainerHints,
@@ -136,6 +135,16 @@ class ViewRegistry private constructor(
     initialContainerHints: ContainerHints,
     container: ViewGroup
   ): View = buildView(initialRendering, initialContainerHints, container.context, container)
+
+  /**
+   * TODO kdoc
+   */
+  fun <RenderingT : Any> getBindingFor(
+    renderingType: KClass<out RenderingT>
+  ): ViewBinding<RenderingT>? {
+    @Suppress("UNCHECKED_CAST")
+    return allBindings[renderingType] as? ViewBinding<RenderingT>
+  }
 
   operator fun <RenderingT : Any> plus(binding: ViewBinding<RenderingT>): ViewRegistry {
     check(binding.type !in bindings.keys) {

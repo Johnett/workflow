@@ -57,13 +57,15 @@ buildscript {
           'transition': "androidx.transition:transition:1.2.0",
       ],
 
+      // We can't use dev03, it crashes immediately.
       'compose': [
-          'foundation': 'androidx.ui:ui-foundation:0.1.0-dev03',
-          'layout': 'androidx.ui:ui-layout:0.1.0-dev03',
-          'material': 'androidx.ui:ui-material:0.1.0-dev03',
-          'tooling': 'androidx.ui:ui-tooling:0.1.0-dev03',
+          'foundation': 'androidx.ui:ui-foundation:0.1.0-dev02',
+          'layout': 'androidx.ui:ui-layout:0.1.0-dev02',
+          'material': 'androidx.ui:ui-material:0.1.0-dev02',
+          'tooling': 'androidx.ui:ui-tooling:0.1.0-dev02',
       ],
 
+      'coil': 'io.coil-kt:coil:0.8.0',
       'moshi': "com.squareup.moshi:moshi:1.9.2",
       'rxandroid2': "io.reactivex.rxjava2:rxandroid:2.1.1",
       'timber': "com.jakewharton.timber:timber:4.7.1",
@@ -171,7 +173,7 @@ subprojects {
 
   tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
     kotlinOptions {
-      kotlinOptions.allWarningsAsErrors = true
+//      kotlinOptions.allWarningsAsErrors = true
 
       // Don't panic, all this does is allow us to use the @Experimental meta-annotation.
       // to define our own experiments.
