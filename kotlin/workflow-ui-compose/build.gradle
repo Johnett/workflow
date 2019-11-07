@@ -35,6 +35,7 @@ dependencies {
   api deps.kotlin.stdLib.jdk8
 
   implementation project(':workflow-runtime')
+  implementation deps.compose.framework
   implementation deps.compose.layout
   implementation deps.compose.tooling
 

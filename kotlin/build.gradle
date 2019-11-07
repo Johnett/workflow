@@ -60,6 +60,7 @@ buildscript {
       // We can't use dev03, it crashes immediately.
       'compose': [
           'foundation': 'androidx.ui:ui-foundation:0.1.0-dev02',
+          'framework': 'androidx.ui:ui-framework:0.1.0-dev02',
           'layout': 'androidx.ui:ui-layout:0.1.0-dev02',
           'material': 'androidx.ui:ui-material:0.1.0-dev02',
           'tooling': 'androidx.ui:ui-tooling:0.1.0-dev02',
