@@ -29,6 +29,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.produceIn
+import kotlin.reflect.KClass
 
 /**
  * Launches a new coroutine that is a child of this node's scope, and calls
@@ -46,15 +47,34 @@ internal fun <T> CoroutineScope.launchWorker(
     .transformToValueOrDone()
     .catch { e ->
       // Workers that failed (as opposed to just cancelled) should have their failure reason
-      // re-thrown from the workflow runtime. If we don't unwrap the cause here, they'll just
-      // cause the runtime to cancel.
-      val cancellationCause = e.unwrapCancellationCause()
-      throw cancellationCause ?: e
+      // re-thrown from the workflow runtime.
+      throw e.wrapWorkerLaunchException(worker::class)
     }
     // produceIn implicitly creates a buffer (it uses a Channel to bridge between contexts). This
     // operator is required to override the default buffer size.
     .buffer(RENDEZVOUS)
     .produceIn(this)
+
+/**
+ * Unwraps the cancellation cause of the receiving [Throwable], if any. If the receiving Throwable
+ * is a [NullPointerException] and the message is null, we guess that the library consumer may be
+ * mocking a Worker in their unit tests, amd forgot to mock the run method.
+ */
+private fun Throwable.wrapWorkerLaunchException(workerType: KClass<*>): Throwable {
+  // If we don't unwrap the cause here, they'll just cause the runtime to cancel.
+  val unwrappedCancellationCause = unwrapCancellationCause() ?: this
+  return if (unwrappedCancellationCause is NullPointerException &&
+      unwrappedCancellationCause.message.isNullOrEmpty()
+  ) {
+    Exception(
+        "Worker $workerType was unable to run. If you are using Mockito to mock your workers, " +
+            "make sure you mock the run() method!",
+        unwrappedCancellationCause
+    )
+  } else {
+    unwrappedCancellationCause
+  }
+}
 
 @UseExperimental(VeryExperimentalWorkflow::class)
 private fun <T> Flow<T>.wireUpDebugger(
